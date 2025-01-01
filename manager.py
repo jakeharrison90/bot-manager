@@ -11,13 +11,13 @@ from time import perf_counter
 # Telegram bot API details
 api_id = 21169722
 api_hash = "99190a46eadbfbb4a857215c5cc4637e"
-bot_token = "8088969339:AAGd7a06rPhBhWQ0Q0Yxo8iIEpBQ3_sFzwY"
+bot_token = "8094419090:AAGgGQH7i9-0cRZ-xvP76U6QOrHtf5fJQPA"
 
 # Your Telegram user ID to send notifications
 admin_user_id = 6387028671
 
 # Password for non-admin access
-user_password = "1122"
+user_password = "11223344"
 authorized_users = {}  # Dictionary to store user_id and authorization time
 
 # Pyrogram client
