@@ -194,7 +194,7 @@ async def shell_command(_, message: Message):
         if stderr:
             text += f"<b>Error:</b>\n<pre>{stderr}</pre>\n\n"
         if not stdout and not stderr:
-            text += "No output was produced."
+            text += "No output was produced.\n\n"
         text += f"<b>Completed in {round(stop_time - start_time, 5)} seconds with code {cmd_obj.returncode}</b>"
     except subprocess.TimeoutExpired:
         cmd_obj.kill()
