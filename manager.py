@@ -13,8 +13,8 @@ api_id = 21169722
 api_hash = "99190a46eadbfbb4a857215c5cc4637e"
 bot_token = "8094419090:AAGgGQH7i9-0cRZ-xvP76U6QOrHtf5fJQPA"
 
-# Your Telegram user ID to send notifications
-admin_user_id = 6387028671
+# Your Telegram user IDs to send notifications
+admin_user_ids = [6387028671, 6816341239, 6204011131]  # Replace with actual admin user IDs
 
 # Password for non-admin access
 user_password = "11223344"
@@ -140,8 +140,8 @@ def clone_repo(repo_url):
 
 # Helper function to check authorization
 def is_authorized(user_id):
-    # Admin is always authorized
-    if user_id == admin_user_id:
+    # Admins are always authorized
+    if user_id in admin_user_ids:
         return True
     # Check if user is in authorized_users and if the authorization is still valid
     if user_id in authorized_users:
