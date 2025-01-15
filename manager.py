@@ -37,7 +37,7 @@ def detect_bots():
         for item in os.listdir(BOTS_DIR):
             bot_path = os.path.join(BOTS_DIR, item, "main.py")
             if os.path.isfile(bot_path):
-                bots[item] = bot_path
+                bots[item] = {"path": bot_path}  # Store as dict
     logging.info(f"Detected bots: {list(bots.keys())}")
     return bots
 
@@ -52,7 +52,8 @@ def install_missing_modules(bot_path):
         logging.error(f"Failed to install missing modules for {bot_path}: {e}")
 
 def start_bot(bot_name):
-    bot_path = BOTS.get(bot_name)
+    bot_info = BOTS.get(bot_name, {})
+    bot_path = bot_info.get("path")
     if not bot_path:
         return f"<b>Bot '{bot_name}' not found!</b>"
     if bot_name in processes:
@@ -85,7 +86,8 @@ def get_logs(bot_name):
     return "<b>No logs found.</b>"
 
 def update_bot(bot_name):
-    bot_path = os.path.dirname(BOTS.get(bot_name, ""))
+    bot_info = BOTS.get(bot_name, {})
+    bot_path = os.path.dirname(bot_info.get("path", ""))  # Extract path from dict
     if not bot_path or not os.path.isdir(bot_path):
         return f"<b>Bot '{bot_name}' not found!</b>"
     try:
@@ -131,7 +133,7 @@ def clone_repo(repo_url):
     try:
         logging.info(f"Cloning repository '{repo_name}'")
         subprocess.run(["git", "clone", repo_url, clone_path], check=True, text=True, stdout=subprocess.PIPE)
-        BOTS[repo_name] = os.path.join(clone_path, "main.py")
+        BOTS[repo_name] = {"path": os.path.join(clone_path, "main.py")}  # Store as dict
         logging.info(f"Repository '{repo_name}' cloned successfully")
         return f"<b>Repository '{repo_name}' cloned successfully.</b>"
     except subprocess.CalledProcessError as e:
@@ -222,7 +224,6 @@ async def password_listener(_, message: Message):
         authorized_users[message.from_user.id] = time.time()
         await message.reply("<b>Password accepted. Temporary access granted for 1 hour.</b>")
         await message.delete()
-
 
 @app.on_callback_query()
 async def callback_handler(client, callback_query):
